@@ -289,9 +289,12 @@ void moveRight()
 // false if it could not move (then the piece must lock).
 bool moveDown()
 {
-    // TODO (YOUR LOGIC)
-
-    return false; // TODO: remove this line when you are done
+    if (canPlace(shape, pieceRow + 1, pieceCol))
+    {
+        pieceRow++;
+        return true;
+    }
+    return false;
 }
 
 // Rotates the piece clockwise.
