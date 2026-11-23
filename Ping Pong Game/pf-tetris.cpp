@@ -260,7 +260,13 @@ bool canPlace(const char s[4][4], int row, int col)
 // Copies pieces[pieceNumber] into the array shape[4][4].
 void copyPieceToShape(int pieceNumber)
 {
-    // TODO (YOUR LOGIC): two nested loops, shape[r][c] = pieces[pieceNumber][r][c]
+    for (int r = 0; r < 4; r++)
+    {
+        for (int c = 0; c < 4; c++)
+        {
+            shape[r][c] = pieces[pieceNumber][r][c];
+        }
+    }
 }
 
 void moveLeft()
