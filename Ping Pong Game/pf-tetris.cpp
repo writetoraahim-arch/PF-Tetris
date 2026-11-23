@@ -157,21 +157,43 @@ void updateGameOver();
 
 // Reads pieces.txt into the 3D array pieces[7][4][4].
 // Returns true if the file was read, false if the file is missing.
+
 bool loadPieces()
 {
-    // TODO (YOUR LOGIC):
-    //   1. Open "pieces.txt" with an ifstream called fin.
-    //   2. If the file did not open, return false (the game will then show
-    //      an error message instead of crashing).
-    //   3. Read the first number (how many pieces, it is 7).
-    //   4. Use THREE nested loops: piece (0..6), row (0..3), column (0..3).
-    //      Inside, read one character with   fin >> ch;   and store it in
-    //      pieces[piece][row][column].
-    //      (fin >> ch skips spaces and new lines by itself.)
-    //   5. Close the file and return true.
+    ifstream fin("pieces.txt");
+    if (!fin.is_open())
+    {
+        return false;
+    }
 
-    return false; // TODO: remove this line when you are done
+    int count = 0;
+    if (!(fin >> count) || count != 7)
+    {
+        fin.close();
+        return false;
+    }
+
+    char ch;
+    for (int p = 0; p < 7; p++)
+    {
+        for (int r = 0; r < 4; r++)
+        {
+            for (int c = 0; c < 4; c++)
+            {
+                if (!(fin >> ch))
+                {
+                    fin.close();
+                    return false;
+                }
+                pieces[p][r][c] = ch;
+            }
+        }
+    }
+
+    fin.close();
+    return true;
 }
+// Copies pieces[pieceNumber] into the array shape[4][4].
 
 // Empties the board and sets score = 0, lines = 0, level = 1.
 void resetGame()
