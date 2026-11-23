@@ -157,6 +157,7 @@ void updateGameOver();
 
 // Reads pieces.txt into the 3D array pieces[7][4][4].
 // Returns true if the file was read, false if the file is missing.
+
 bool loadPieces()
 {
     ifstream fin("pieces.txt");
@@ -192,6 +193,7 @@ bool loadPieces()
     fin.close();
     return true;
 }
+// Copies pieces[pieceNumber] into the array shape[4][4].
 
 // Empties the board and sets score = 0, lines = 0, level = 1.
 void resetGame()
@@ -252,6 +254,8 @@ bool canPlace(const char s[4][4], int row, int col)
     // All filled cells passed the checks
     return true;
 }
+// Reads pieces.txt into the 3D array pieces[7][4][4].
+// Returns true if the file was read, false if the file is missing.
 
 // Copies pieces[pieceNumber] into the array shape[4][4].
 void copyPieceToShape(int pieceNumber)
@@ -293,6 +297,7 @@ bool moveDown()
     return false;
 }
 
+// Rotates the piece clockwise.
 // Rotates the piece clockwise.
 void rotatePiece()
 {
