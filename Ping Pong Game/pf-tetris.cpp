@@ -271,7 +271,10 @@ void copyPieceToShape(int pieceNumber)
 
 void moveLeft()
 {
-    // TODO (YOUR LOGIC): if canPlace(shape, pieceRow, pieceCol - 1) then pieceCol--
+    if (canPlace(shape, pieceRow, pieceCol - 1))
+    {
+        pieceCol--;
+    }
 }
 
 void moveRight()
