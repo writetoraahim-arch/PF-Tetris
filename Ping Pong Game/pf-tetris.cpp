@@ -360,12 +360,10 @@ int clearLines()
 // Adds points, adds lines, and updates the level.
 void updateScoreAndLevel(int rowsCleared)
 {
-    // TODO (YOUR LOGIC):
-    //   score += POINTS[rowsCleared];
-    //   lines += rowsCleared;
-    //   level = 1 + lines / LINES_PER_LEVEL;
+    score += POINTS[rowsCleared];
+    lines += rowsCleared;
+    level = 1 + lines / LINES_PER_LEVEL;
 }
-
 // How many frames the piece waits before falling one row.
 int getFallDelay()
 {
@@ -444,12 +442,14 @@ void clearSaveFile()
 // Returns the row where the falling piece would land.
 int getShadowRow()
 {
-    // TODO (BONUS):
-    //   int r = pieceRow;
-    //   while (canPlace(shape, r + 1, pieceCol)) r++;
-    //   return r;
+    int row = pieceRow;
 
-    return pieceRow; // TODO: replace with your result
+    while (canPlace(shape, row + 1, pieceCol))
+    {
+        row++;
+    }
+
+    return row;
 }
 
 // Key C: save the falling piece in the hold box, or swap it with the held one.
