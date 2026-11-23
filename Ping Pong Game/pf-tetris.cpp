@@ -289,14 +289,29 @@ bool moveDown()
 }
 
 // Rotates the piece clockwise.
+// Rotates the piece clockwise.
 void rotatePiece()
 {
-    // TODO (YOUR LOGIC):
-    //   1. Make a copy: char rotated[4][4];
-    //   2. Fill it with the same formula as rotating an image in Project 1:
-    //          rotated[r][c] = shape[3 - c][r];
-    //   3. If canPlace(rotated, pieceRow, pieceCol) is true, copy rotated
-    //      back into shape. Otherwise ignore the key.
+    char rotated[4][4];
+
+    for (int r = 0; r < 4; r++)
+    {
+        for (int c = 0; c < 4; c++)
+        {
+            rotated[r][c] = shape[3 - c][r];
+        }
+    }
+
+    if (canPlace(rotated, pieceRow, pieceCol))
+    {
+        for (int r = 0; r < 4; r++)
+        {
+            for (int c = 0; c < 4; c++)
+            {
+                shape[r][c] = rotated[r][c];
+            }
+        }
+    }
 }
 
 // ============================================================================
