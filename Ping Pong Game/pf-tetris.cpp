@@ -159,18 +159,38 @@ void updateGameOver();
 // Returns true if the file was read, false if the file is missing.
 bool loadPieces()
 {
-    // TODO (YOUR LOGIC):
-    //   1. Open "pieces.txt" with an ifstream called fin.
-    //   2. If the file did not open, return false (the game will then show
-    //      an error message instead of crashing).
-    //   3. Read the first number (how many pieces, it is 7).
-    //   4. Use THREE nested loops: piece (0..6), row (0..3), column (0..3).
-    //      Inside, read one character with   fin >> ch;   and store it in
-    //      pieces[piece][row][column].
-    //      (fin >> ch skips spaces and new lines by itself.)
-    //   5. Close the file and return true.
+    ifstream fin("pieces.txt");
+    if (!fin.is_open())
+    {
+        return false;
+    }
 
-    return false; // TODO: remove this line when you are done
+    int count = 0;
+    if (!(fin >> count) || count != 7)
+    {
+        fin.close();
+        return false;
+    }
+
+    char ch;
+    for (int p = 0; p < 7; p++)
+    {
+        for (int r = 0; r < 4; r++)
+        {
+            for (int c = 0; c < 4; c++)
+            {
+                if (!(fin >> ch))
+                {
+                    fin.close();
+                    return false;
+                }
+                pieces[p][r][c] = ch;
+            }
+        }
+    }
+
+    fin.close();
+    return true;
 }
 
 // Empties the board and sets score = 0, lines = 0, level = 1.
@@ -201,54 +221,101 @@ void startNewGame()
 // board when its top-left corner is at (row, col).
 bool canPlace(const char s[4][4], int row, int col)
 {
-    // TODO (YOUR LOGIC):
-    //   For every cell (r, c) of the 4x4 box that is '#':
-    //       boardRow = row + r;    boardCol = col + c;
-    //       It does NOT fit if:
-    //           boardCol < 0  or  boardCol >= COLS
-    //           boardRow >= ROWS
-    //           board[boardRow][boardCol] != 0
-    //   Cells that are '.' are ignored (they may stick out of the board).
-    //   Careful: do not read board[][] with a wrong index before checking
-    //   the limits. Return true only if every '#' cell is fine.
+    for (int r = 0; r < 4; r++)
+    {
+        for (int c = 0; c < 4; c++)
+        {
+            // Only check filled cells
+            if (s[r][c] == '#')
+            {
+                // Calculate actual board position
+                int boardRow = row + r;
+                int boardCol = col + c;
 
-    return false; // TODO: remove this line when you are done
+                // Check boundaries
+                if (boardCol < 0 || boardCol >= COLS ||
+                    boardRow >= ROWS)
+                {
+                    return false;
+                }
+
+                // Check collision (only if row is valid)
+                if (boardRow >= 0 &&
+                    board[boardRow][boardCol] != 0)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+
+    // All filled cells passed the checks
+    return true;
 }
 
 // Copies pieces[pieceNumber] into the array shape[4][4].
 void copyPieceToShape(int pieceNumber)
 {
-    // TODO (YOUR LOGIC): two nested loops, shape[r][c] = pieces[pieceNumber][r][c]
+    for (int r = 0; r < 4; r++)
+    {
+        for (int c = 0; c < 4; c++)
+        {
+            shape[r][c] = pieces[pieceNumber][r][c];
+        }
+    }
 }
 
 void moveLeft()
 {
-    // TODO (YOUR LOGIC): if canPlace(shape, pieceRow, pieceCol - 1) then pieceCol--
+    if (canPlace(shape, pieceRow, pieceCol - 1))
+    {
+        pieceCol--;
+    }
 }
 
 void moveRight()
 {
-    // TODO (YOUR LOGIC): same idea, one column to the right
+    if (canPlace(shape, pieceRow, pieceCol + 1))
+    {
+        pieceCol++;
+    }
 }
 
 // Moves the piece down by one row if it fits. Returns true if it moved,
 // false if it could not move (then the piece must lock).
 bool moveDown()
 {
-    // TODO (YOUR LOGIC)
-
-    return false; // TODO: remove this line when you are done
+    if (canPlace(shape, pieceRow + 1, pieceCol))
+    {
+        pieceRow++;
+        return true;
+    }
+    return false;
 }
 
 // Rotates the piece clockwise.
 void rotatePiece()
 {
-    // TODO (YOUR LOGIC):
-    //   1. Make a copy: char rotated[4][4];
-    //   2. Fill it with the same formula as rotating an image in Project 1:
-    //          rotated[r][c] = shape[3 - c][r];
-    //   3. If canPlace(rotated, pieceRow, pieceCol) is true, copy rotated
-    //      back into shape. Otherwise ignore the key.
+    char rotated[4][4];
+
+    for (int r = 0; r < 4; r++)
+    {
+        for (int c = 0; c < 4; c++)
+        {
+            rotated[r][c] = shape[3 - c][r];
+        }
+    }
+
+    if (canPlace(rotated, pieceRow, pieceCol))
+    {
+        for (int r = 0; r < 4; r++)
+        {
+            for (int c = 0; c < 4; c++)
+            {
+                shape[r][c] = rotated[r][c];
+            }
+        }
+    }
 }
 
 // ============================================================================
