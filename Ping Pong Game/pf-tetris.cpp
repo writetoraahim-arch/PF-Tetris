@@ -201,19 +201,39 @@ void startNewGame()
 // board when its top-left corner is at (row, col).
 bool canPlace(const char s[4][4], int row, int col)
 {
-    // TODO (YOUR LOGIC):
-    //   For every cell (r, c) of the 4x4 box that is '#':
-    //       boardRow = row + r;    boardCol = col + c;
-    //       It does NOT fit if:
-    //           boardCol < 0  or  boardCol >= COLS
-    //           boardRow >= ROWS
-    //           board[boardRow][boardCol] != 0
-    //   Cells that are '.' are ignored (they may stick out of the board).
-    //   Careful: do not read board[][] with a wrong index before checking
-    //   the limits. Return true only if every '#' cell is fine.
+    for (int r = 0; r < 4; r++)
+    {
+        for (int c = 0; c < 4; c++)
+        {
+            // Only check filled cells
+            if (s[r][c] == '#')
+            {
+                // Calculate actual board position
+                int boardRow = row + r;
+                int boardCol = col + c;
 
-    return false; // TODO: remove this line when you are done
+                // Check boundaries
+                if (boardCol < 0 || boardCol >= COLS ||
+                    boardRow >= ROWS)
+                {
+                    return false;
+                }
+
+                // Check collision (only if row is valid)
+                if (boardRow >= 0 &&
+                    board[boardRow][boardCol] != 0)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+
+    // All filled cells passed the checks
+    return true;
 }
+// Reads pieces.txt into the 3D array pieces[7][4][4].
+// Returns true if the file was read, false if the file is missing.
 
 // Copies pieces[pieceNumber] into the array shape[4][4].
 void copyPieceToShape(int pieceNumber)
