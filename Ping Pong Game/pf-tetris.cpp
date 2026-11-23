@@ -279,7 +279,10 @@ void moveLeft()
 
 void moveRight()
 {
-    // TODO (YOUR LOGIC): same idea, one column to the right
+    if (canPlace(shape, pieceRow, pieceCol + 1))
+    {
+        pieceCol++;
+    }
 }
 
 // Moves the piece down by one row if it fits. Returns true if it moved,
