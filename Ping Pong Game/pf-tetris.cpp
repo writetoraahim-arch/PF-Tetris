@@ -337,12 +337,21 @@ void hardDrop()
 // Copies the blocks of the falling piece into board[][].
 void lockPiece()
 {
-    // TODO (YOUR LOGIC):
-    //   For every '#' cell (r, c) of shape:
-    //       board[pieceRow + r][pieceCol + c] = currentPiece + 1;
-    //   (piece number + 1, so that 0 stays "empty")
-}
+    for (int row = 0; row < 4; row++)
+    {
+        for (int col = 0; col < 4; col++)
+        {
+            if (shape[row][col] == '#')
+            {
+                int boardRow = pieceRow + row;
+                int boardCol = pieceCol + col;
 
+                // Add 1 because the board uses 0 for an empty square.
+                board[boardRow][boardCol] = currentPiece + 1;
+            }
+        }
+    }
+}
 // Checks the board for full rows and removes them.
 // Returns how many rows were removed.
 int clearLines()
