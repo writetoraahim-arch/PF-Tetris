@@ -411,9 +411,8 @@ bool loadGame()
 // Makes savegame.txt empty (a finished game cannot be continued).
 void clearSaveFile()
 {
-    // TODO (YOUR LOGIC):
-    //   ofstream fout("savegame.txt");   // opening it like this empties it
-    //   fout.close();
+    ofstream fout("savegame.txt");
+    fout.close();
 }
 
 // ============================================================================
