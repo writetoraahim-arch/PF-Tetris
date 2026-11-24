@@ -511,9 +511,13 @@ void updatePlaying()
 
 void updateGameOver()
 {
-    // TODO (YOUR LOGIC):
-    //   If KEY_ENTER is pressed: gameState = MENU;  (menuChoice = 0;
-    //   showNoSaveMsg = false;)
+    if (pressedKey == KEY_ENTER)
+    {
+        gameState = MENU;
+        menuChoice = 0;        // menu starts on "New Game"
+        showNoSaveMsg = false;
+    }
+
 }
 
 // ============================================================================
