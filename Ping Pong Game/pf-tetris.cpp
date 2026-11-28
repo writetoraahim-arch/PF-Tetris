@@ -158,52 +158,27 @@ void updateGameOver();
 // Reads pieces.txt into the 3D array pieces[7][4][4].
 // Returns true if the file was read, false if the file is missing.
 
-bool loadPieces()
-{
-    ifstream fin("pieces.txt");
-    if (!fin.is_open())
-    {
-        return false;
-    }
 
-    int count = 0;
-    if (!(fin >> count) || count != 7)
-    {
-        fin.close();
-        return false;
-    }
 
-    char ch;
-    for (int p = 0; p < 7; p++)
-    {
-        for (int r = 0; r < 4; r++)
-        {
-            for (int c = 0; c < 4; c++)
-            {
-                if (!(fin >> ch))
-                {
-                    fin.close();
-                    return false;
-                }
-                pieces[p][r][c] = ch;
-            }
-        }
-    }
-
-    fin.close();
-    return true;
-}
 // Copies pieces[pieceNumber] into the array shape[4][4].
 
 // Empties the board and sets score = 0, lines = 0, level = 1.
 void resetGame()
 {
-    // TODO (YOUR LOGIC):
-    //   - Make every cell of board[][] equal to 0 (nested loops).
-    //   - score = 0; lines = 0; level = 1; fallCounter = 0;
-    //   - (bonus) holdPiece = -1; holdUsed = false;
+    for (int r = 0;r < ROWS;r++)
+    {
+        for (int c = 0;c < COLS;c++)
+        {
+            board[r][c] = 0;
+        }
+    }
+    score = 0;
+    lines = 0;
+    level = 1;
+    fallCounter = 0;
+    holdPiece = -1;
+    holdUsed = false;
 }
-
 // Starts a fresh game: reset everything, choose pieces, go to PLAYING.
 void startNewGame()
 {
@@ -442,13 +417,19 @@ bool spawnNewPiece()
 
 void saveGame()
 {
-    // TODO (YOUR LOGIC):
-    //   1. Open "savegame.txt" with an ofstream.
-    //   2. Write: score, lines, level   (one line)
-    //   3. Write: nextPiece             (one line)
-    //   4. Write the board with nested loops, a space between numbers,
-    //      and a new line after each row.
-    //   5. Close the file.
+    ofstream fout("savegame.txt");
+    
+        fout << score << " " << lines << " " << level << endl;
+        fout << nextPiece << endl;
+        for (int r = 0;r < ROWS;r++)
+        {
+            for (int c = 0;c < COLS;c++)
+            {
+                fout << board[r][c] << " ";
+            }
+            fout << endl;
+        }
+    fout.close();
 }
 
 // Returns true if a game was loaded, false if there is no saved game.
@@ -471,9 +452,8 @@ bool loadGame()
 // Makes savegame.txt empty (a finished game cannot be continued).
 void clearSaveFile()
 {
-    // TODO (YOUR LOGIC):
-    //   ofstream fout("savegame.txt");   // opening it like this empties it
-    //   fout.close();
+    ofstream fout("savegame.txt");
+    fout.close();
 }
 
 // ============================================================================
@@ -572,9 +552,13 @@ void updatePlaying()
 
 void updateGameOver()
 {
-    // TODO (YOUR LOGIC):
-    //   If KEY_ENTER is pressed: gameState = MENU;  (menuChoice = 0;
-    //   showNoSaveMsg = false;)
+    if (pressedKey == KEY_ENTER)
+    {
+        gameState = MENU;
+        menuChoice = 0;        // menu starts on "New Game"
+        showNoSaveMsg = false;
+    }
+
 }
 
 // ============================================================================
