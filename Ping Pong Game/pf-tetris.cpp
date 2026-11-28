@@ -165,12 +165,20 @@ void updateGameOver();
 // Empties the board and sets score = 0, lines = 0, level = 1.
 void resetGame()
 {
-    // TODO (YOUR LOGIC):
-    //   - Make every cell of board[][] equal to 0 (nested loops).
-    //   - score = 0; lines = 0; level = 1; fallCounter = 0;
-    //   - (bonus) holdPiece = -1; holdUsed = false;
+    for (int r = 0;r < ROWS;r++)
+    {
+        for (int c = 0;c < COLS;c++)
+        {
+            board[r][c] = 0;
+        }
+    }
+    score = 0;
+    lines = 0;
+    level = 1;
+    fallCounter = 0;
+    holdPiece = -1;
+    holdUsed = false;
 }
-
 // Starts a fresh game: reset everything, choose pieces, go to PLAYING.
 void startNewGame()
 {
