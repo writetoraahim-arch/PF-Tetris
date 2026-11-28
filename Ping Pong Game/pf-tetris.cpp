@@ -390,13 +390,19 @@ bool spawnNewPiece()
 
 void saveGame()
 {
-    // TODO (YOUR LOGIC):
-    //   1. Open "savegame.txt" with an ofstream.
-    //   2. Write: score, lines, level   (one line)
-    //   3. Write: nextPiece             (one line)
-    //   4. Write the board with nested loops, a space between numbers,
-    //      and a new line after each row.
-    //   5. Close the file.
+    ofstream fout("savegame.txt");
+    
+        fout << score << " " << lines << " " << level << endl;
+        fout << nextPiece << endl;
+        for (int r = 0;r < ROWS;r++)
+        {
+            for (int c = 0;c < COLS;c++)
+            {
+                fout << board[r][c] << " ";
+            }
+            fout << endl;
+        }
+    fout.close();
 }
 
 // Returns true if a game was loaded, false if there is no saved game.
