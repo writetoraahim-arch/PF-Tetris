@@ -182,14 +182,18 @@ void resetGame()
 // Starts a fresh game: reset everything, choose pieces, go to PLAYING.
 void startNewGame()
 {
-    // TODO (YOUR LOGIC):
-    //   1. Call resetGame().
-    //   2. Choose nextPiece randomly with   rand() % 7
-    //   3. Call spawnNewPiece() (it moves nextPiece into the falling piece
-    //      and chooses a new random nextPiece).
-    //   4. Set gameState = PLAYING;
-}
+    resetGame();
+    nextPiece = rand() % 7;
 
+    if (spawnNewPiece())
+    {
+        gameState = PLAYING;
+    }
+    else
+    {
+        gameState = GAME_OVER;
+    }
+}
 // ============================================================================
 //  5. TODO (YOUR LOGIC) - MOVING AND ROTATING  (Feature 3)
 // ============================================================================
