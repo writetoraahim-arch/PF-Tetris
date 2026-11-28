@@ -356,21 +356,48 @@ void lockPiece()
 // Returns how many rows were removed.
 int clearLines()
 {
-    // TODO (YOUR LOGIC):
-    //   Start from the bottom row (ROWS - 1) and go upwards.
-    //   A row is full if none of its 10 cells is 0.
-    //   If it is full:
-    //       - move every row above it down by one,
-    //       - make the top row empty (all zeros),
-    //       - count it (cleared++),
-    //       - check the SAME row again (do not move up yet), because the row
-    //         that just came down may also be full.
-    //   Otherwise go to the row above.
-    //   Return the count.
+    int cleared = 0;
+    int row = ROWS - 1;
 
-    return 0; // TODO: replace with your count
+    while (row >= 0)
+    {
+        bool full = true;
+
+        for (int col = 0; col < COLS; col++)
+        {
+            if (board[row][col] == 0)
+            {
+                full = false;
+                break;
+            }
+        }
+
+        if (full)
+        {
+            for (int r = row; r > 0; r--)
+            {
+                for (int col = 0; col < COLS; col++)
+                {
+                    board[r][col] = board[r - 1][col];
+                }
+            }
+
+            for (int col = 0; col < COLS; col++)
+            {
+                board[0][col] = 0;
+            }
+
+            cleared++;
+            
+        }
+        else
+        {
+            row--;
+        }
+    }
+
+    return cleared;
 }
-
 // Adds points, adds lines, and updates the level.
 void updateScoreAndLevel(int rowsCleared)
 {
