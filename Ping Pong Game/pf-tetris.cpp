@@ -524,17 +524,39 @@ void updateGame()
 
 void updateMenu()
 {
-    // TODO (YOUR LOGIC):
-    //   - KEY_UP   : menuChoice goes up   (do not go above option 0)
-    //   - KEY_DOWN : menuChoice goes down (do not go below option 2)
-    //     (and set showNoSaveMsg = false when the player moves)
-    //   - KEY_ENTER: use switch (menuChoice):
-    //         OPT_NEW      -> startNewGame();
-    //         OPT_CONTINUE -> if (loadGame()) gameState = PLAYING;
-    //                         else showNoSaveMsg = true;   (stay in the menu)
-    //         OPT_EXIT     -> wantExit = true;
+        if (pressedKey == KEY_UP && menuChoice > 0)
+        {
+            menuChoice--;
+            showNoSaveMsg = false;
+        }
+        else if (pressedKey == KEY_DOWN && menuChoice < 2)
+        {
+            menuChoice++;
+            showNoSaveMsg = false;
+        }
+        else if (pressedKey == KEY_ENTER)
+        {
+            switch (menuChoice)
+            {
+            case OPT_NEW:
+                startNewGame();
+                break;
+            case OPT_CONTINUE:
+                if (loadGame())
+                {
+                    gameState = PLAYING;
+                }
+                else
+                {
+                    showNoSaveMsg = true;
+                }
+                break;
+            case OPT_EXIT:
+                wantExit = true;
+                break;
+            }
+        }
 }
-
 void updatePlaying()
 {
     // TODO (YOUR LOGIC):
