@@ -408,18 +408,32 @@ void saveGame()
 // Returns true if a game was loaded, false if there is no saved game.
 bool loadGame()
 {
-    // TODO (YOUR LOGIC):
-    //   1. Open "savegame.txt" with an ifstream.
-    //   2. If it cannot be opened, or it is empty (you cannot read the
-    //      score), return false.
-    //   3. Read score, lines, level, nextPiece, then the board (nested loops).
-    //   4. Close the file.
-    //   5. fallCounter = 0; (bonus) holdPiece = -1; holdUsed = false;
-    //   6. Call spawnNewPiece() so that the saved next piece starts falling
-    //      from the top and a new next piece is chosen.
-    //   7. Return true.
 
-    return false; // TODO: replace with your result
+    ifstream fin("savegame.txt");
+    if (!fin.is_open())
+    {
+         return false;
+    }
+    if (!(fin >> score))
+    {
+        fin.close();
+        return false;
+    }
+    fin >> lines >> level >> nextPiece;
+
+    for (int r = 0;r < ROWS;r++)
+    {
+        for (int c = 0;c < COLS;c++)
+        {
+            fin >> board[r][c];
+        }
+    }
+    fin.close();
+    fallCounter = 0;
+    holdPiece = -1;
+    holdUsed = false;
+    spawnNewPiece();
+    return true;
 }
 
 // Makes savegame.txt empty (a finished game cannot be continued).
